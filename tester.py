@@ -9,11 +9,18 @@ class IETDAVVGradeSpider(scrapy.Spider):
     def start_requests(self):
         # enter the build url here
 
-        url = "http://results.ietdavv.edu.in/DisplayStudentResult?rollno=18T4047&typeOfStudent=Regular"
+        url = "http://results.ietdavv.edu.in/DisplayStudentResult?rollno=19C2178&typeOfStudent=Regular"
         yield scrapy.Request(url=url, callback=self.parseGradesheet)
 
     def parseGradesheet(self, response):
         data = {}
+        if(response.status == 500 or response.status == 404):
+            return
+
+        check = response.css("h1::text").extract()
+        if(check[0] == "ROLL NUMBER NOT FOUND."):
+            print("stupid")
+            return
         data['Title'] = response.css("font::text")[2].extract()
         tables = response.css("table")
         tables = tables.css("table")
@@ -31,8 +38,7 @@ class IETDAVVGradeSpider(scrapy.Spider):
         total_subjects = len(subjects_and_codes)
         score = tables[4].css("tr").css("td").css("b::text").getall()
         for i in range(1, total_subjects):
-            course = {heads[0]: subjects_and_codes[i-1], heads[1]
-                : subjects_and_codes[i], heads[2]: score[i-1], heads[3]: score[i], }
+            course = {heads[0]: subjects_and_codes[i-1], heads[1]: subjects_and_codes[i], heads[2]: score[i-1], heads[3]: score[i], }
             i = i+1
             grades.append(course)
         data['Grades'] = grades
