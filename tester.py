@@ -8,16 +8,9 @@ class IETDAVVGradeSpider(scrapy.Spider):
 
     def start_requests(self):
         # enter the build url here
-        codes = ['C', 'V', 'I', 'E', 'T', 'M']
-        batches = ['0', '1']
-        nums = [i for i in range(1, 100)]
-        years = [('19', '2'), ('18', '4'), ('17', '6')]
-        rolls = ['{}{}{}{}{:0>2}'.format(
-            y[0], c, y[1], b, n) for c in codes for b in batches for n in nums for y in years]
-        urlf = "http://results.ietdavv.edu.in/DisplayStudentResult?rollno={}&typeOfStudent=Regular"
-        for roll in rolls:
-            url = urlf.format(roll)
-            yield scrapy.Request(url=url, callback=self.parseGradesheet)
+
+        url = "http://results.ietdavv.edu.in/DisplayStudentResult?rollno=18T4047&typeOfStudent=Regular"
+        yield scrapy.Request(url=url, callback=self.parseGradesheet)
 
     def parseGradesheet(self, response):
         data = {}
