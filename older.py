@@ -11,8 +11,10 @@ def printresult(rollNO):
 
 
 cls_code = input()
-n = 'http://www.ietdavv.edu.in:8080/logic2?rollno=17'
+n = 'http://www.ietdavv.edu.in:8080/logic2?rollno=1'
 
+
+#
 if cls_code == 'CSA':
     cls_rcode = n+'C20'
 elif cls_code == 'CSB':
