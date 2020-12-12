@@ -3,7 +3,7 @@ import json
 import os
 
 
-class IITIGradeSpider(scrapy.Spider):
+class IETDAVVradeSpider(scrapy.Spider):
     name = "Gradesheet"
 
     def start_requests(self):
@@ -12,6 +12,7 @@ class IITIGradeSpider(scrapy.Spider):
         yield scrapy.Request(url=url, callback=self.parseGradesheet)
 
     def clean(self, s):
+        # cleaning the page
 
     def parseGradesheet(self, response):
         page = response.url
