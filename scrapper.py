@@ -19,8 +19,6 @@ class IETDAVVGradeSpider(scrapy.Spider):
             url = urlf.format(roll)
             yield scrapy.Request(url=url, callback=self.parseGradesheet)
 
-    def parse(self, response):
-
     def parseGradesheet(self, response):
         page = response.url
         data = {}
